@@ -10,18 +10,21 @@ const api = axios.create({
   },
 });
 
-// интерфейс ответа API
 interface MoviesResponse {
   results: Movie[];
+  total_pages: number;
 }
 
-// поиск фильмов
-export const searchMovies = async (query: string): Promise<Movie[]> => {
+export const searchMovies = async (
+  query: string,
+  page: number
+): Promise<MoviesResponse> => {
   const response = await api.get<MoviesResponse>("/search/movie", {
     params: {
       query,
+      page,
     },
   });
 
-  return response.data.results;
+  return response.data;
 };
